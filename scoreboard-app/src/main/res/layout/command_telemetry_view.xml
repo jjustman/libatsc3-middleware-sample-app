@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_command">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_telemetry_names"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/telemetry_sensor_names"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_more_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/telemetry_more_options" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_telemetry_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enable" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_telemetry_delay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/delay"
+        android:inputType="numberDecimal"
+        android:maxLines="1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_set_telemetry"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/telemetry" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_telemetry_options_flow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="checkbox_telemetry_enable,edit_text_telemetry_delay"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_telemetry_input_flow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="edit_text_telemetry_names,command_telemetry_options_flow"
+        app:flow_verticalGap="@dimen/command_layout_padding" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/buttons_flow"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="button_more_options, button_set_telemetry"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_telemetry_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="command_telemetry_input_flow,buttons_flow"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+
+</merge>

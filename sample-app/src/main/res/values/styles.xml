@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/app_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:defaultFocusHighlightEnabled">true</item>
+    </style>
+
+    <style name="TabLayoutItemTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="SettingsDialog" parent="Dialog" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTitleStyle">@style/SettingsDialogTitle</item>
+    </style>
+
+    <style name="SettingsDialogTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:background">@drawable/ic_bottom_line</item>
+    </style>
+
+</resources>

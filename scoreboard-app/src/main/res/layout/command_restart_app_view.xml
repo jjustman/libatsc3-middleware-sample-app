@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_command">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_restartApp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/restartApp" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_restart_app"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/delay_in_second" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_restart_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="edit_text_restart_app,button_restartApp"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+
+</merge>

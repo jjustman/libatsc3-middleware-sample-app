@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_command">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_show_debug_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/show_debug_info" />
+
+    <CheckBox
+        android:id="@+id/checkbox_debug"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/debug" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_phy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phy" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_debug_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="checkbox_debug,checkbox_phy,button_show_debug_info"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+</merge>

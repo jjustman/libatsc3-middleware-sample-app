@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="service_spinner_width">180dp</dimen>
+    <dimen name="item_spinner_height">36dp</dimen>
+    <dimen name="item_spinner_padding">12dp</dimen>
+    <dimen name="service_bottom_sheet_item_height">28dp</dimen>
+    <dimen name="settings_margin_level_2">15dp</dimen>
+    <dimen name="phy_chart_height">100dp</dimen>
+    <dimen name="chart_label_text_size">12sp</dimen>
+    <dimen name="dialog_content_padding">24dp</dimen>
+    <dimen name="dialog_min_height">350dp</dimen>
+</resources>

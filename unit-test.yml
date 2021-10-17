@@ -1,0 +1,23 @@
+# Android
+# assembleDebug your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save assembleDebug artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+steps:
+  - task: MavenAuthenticate@0
+    displayName: 'Maven Authenticate'
+    inputs:
+      artifactsFeeds: 'middleware, nextgen'
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      javaHomeOption: 'JDKVersion'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean :nextgen-middleware:testDebugUnitTest'
+    displayName: gradlew clean and test

@@ -1,0 +1,232 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+    id 'com.github.triplet.play' version '3.5.0'
+}
+
+def appVersionCode = project.hasProperty('versionCode') ? versionCode.toInteger() : 1
+def appVersion = "1.0.9"
+
+def getCertPropertyCode(propertyName) {
+    if (project.hasProperty(propertyName)) {
+        return project.property(propertyName)
+    } else {
+        if (!ext.hasProperty('keystoreProperties')) {
+            ext.keystoreProperties = new Properties()
+            if (rootProject.file("keystore.properties").exists()) {
+                ext.keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+            }
+        }
+
+        return keystoreProperties[propertyName]
+    }
+}
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    defaultConfig {
+        applicationId "com.nextgenbroadcast.mobile.middleware.sample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode appVersionCode
+        versionName appVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BugfenderKey", "\"nPbJ6hrKCr3NsDdjybzRmWQz7RlPSIWY\"")
+
+        // enables Telemetry collection by default
+        //resValue("bool", "telemetryEnabled", "true")
+        // disable AEAT test notifications
+        //resValue("bool", "testAlertsEnabled", "false")
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(getCertPropertyCode('storeFile'))
+            storePassword getCertPropertyCode('password')
+            keyAlias getCertPropertyCode('keyAlias')
+            keyPassword getCertPropertyCode('keyPassword')
+        }
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix ".${appVersionCode}"
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    flavorDimensions "service_type"
+    productFlavors {
+        embedded {
+            dimension "service_type"
+            resValue "string", "app_name", "Atsc3 Sample App"
+        }
+
+        standalone {
+            dimension "service_type"
+            applicationIdSuffix ".standalone"
+
+            resValue("string", "app_name", "Atsc3 Standalone Sample App")
+            resValue("string", "defaultActionWatch", "com.nextgenbroadcast.mobile.middleware.action.watch.tv")
+            resValue("string", "nextgenMediaFileProvider", "com.nextgenbroadcast.mobile.middleware.provider.dash.tv")
+            resValue("string", "nextgenMMTContentProvider", "com.nextgenbroadcast.mobile.middleware.provider.mmt.tv")
+            resValue("string", "nextgenServicesGuideProvider", "com.nextgenbroadcast.mobile.middleware.provider.esg.tv")
+            resValue("string", "receiverContentProvider", "com.nextgenbroadcast.mobile.middleware.provider.content.tv")
+        }
+
+        light {
+            dimension "service_type"
+            applicationIdSuffix ".light"
+            resValue "string", "app_name", "Atsc3 Light Sample App"
+
+            resValue("string", "defaultActionWatch", "com.nextgenbroadcast.mobile.middleware.action.watch.tv")
+            resValue("string", "receiverContentProvider", "com.nextgenbroadcast.mobile.middleware.provider.content.tv")
+        }
+    }
+
+    sourceSets {
+        main {
+            if (project.hasProperty('org.gradle.project.debugging_asan_enabled') && project.property('org.gradle.project.debugging_asan_enabled').toString().toBoolean()) {
+                jniLibs.srcDirs = ["libs", "libs_asan"]
+                resources.srcDirs = ["src/main/resources_asan"]
+            } else if (project.hasProperty('org.gradle.project.debugging_hwasan_enabled') && project.property('org.gradle.project.debugging_hwasan_enabled').toString().toBoolean()) {
+                jniLibs.srcDirs = ["libs", "libs_hwasan"]
+                resources.srcDirs = ["src/main/resources_hwasan"]
+            } else {
+                jniLibs.srcDirs = ["libs"]
+            }
+
+        }
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding  true
+    }
+
+    packagingOptions {
+        doNotStrip '**.so'
+
+        pickFirst 'lib/arm64-v8a/libcrypto.so'
+        pickFirst 'lib/arm64-v8a/libssl.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+
+        pickFirst 'lib/armeabi-v7a/libcrypto.so'
+        pickFirst 'lib/armeabi-v7a/libssl.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {output ->
+            outputFileName = outputFileName.replace(".apk", "-${defaultConfig.versionName}.${appVersionCode}.apk")
+        }
+    }
+}
+
+def authJsonFile = project.hasProperty('authJsonFilePath') ? file(authJsonFilePath) : rootProject.file("middleware-service-connection.json")
+
+play {
+    serviceAccountCredentials.set(authJsonFile)
+    track.set("internal")
+    releaseName.set("$appVersion ($appVersionCode)")
+    releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.DRAFT)
+    resolutionStrategy.set(com.github.triplet.gradle.androidpublisher.ResolutionStrategy.IGNORE)
+}
+
+def coreKtxVersion = rootProject.ext.coreKtxVersion
+def lifecycleVersion = rootProject.ext.lifecycleVersion
+def coroutinesVersion = rootProject.ext.coroutinesVersion
+def exoplayerVersion = rootProject.ext.exoplayerVersion
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":nextgen-core")
+    implementation project(":nextgen-view")
+    implementation project(":nextgen-player")
+    implementation project(":nextgen-dev")
+
+    embeddedImplementation project(":nextgen-middleware")
+    standaloneImplementation project(":nextgen-middleware")
+
+    implementation "androidx.core:core-ktx:$coreKtxVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+
+    implementation 'androidx.activity:activity-ktx:1.3.1'
+    implementation 'androidx.fragment:fragment-ktx:1.3.6'
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycleVersion"
+
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+    implementation 'com.google.android.material:material:1.4.0'
+
+    standaloneImplementation "androidx.work:work-multiprocess:2.5.0"
+
+    if (project.hasProperty('org.gradle.project.use_local_src_exoplayer_folder') && project.property('org.gradle.project.use_local_src_exoplayer_folder').toString().toBoolean()) {
+        implementation project(':exoplayer-library-core')
+        implementation project(':exoplayer-library-dash')
+        implementation project(':exoplayer-library-ui')
+        implementation project(':exoplayer-extension-daa')
+        implementation project(':exoplayer-extension-mmt')
+    } else {
+        implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-daa:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-mmt:$exoplayerVersion"
+    }
+
+    implementation 'com.google.android.gms:play-services-basement:17.6.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:19.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.1'
+    //jjustman-2021-01-14 - adding firebase performance
+    implementation 'com.google.firebase:firebase-perf-ktx:20.0.2'
+
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
+
+    implementation "androidx.media:media:1.4.1"
+
+    implementation 'com.bugfender.sdk:android:3.0.9'
+
+    implementation "org.eclipse.jetty:jetty-client:9.4.38.v20210224"
+    implementation "com.squareup.okio:okio:2.8.0"
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--     <phy-device fd="-1" path="SDIO" freqKhz="659000" /> -->
+
+    <!-- freqKhz="533000"
+
+     freqKhz="593000"
+
+     725000
+
+     freqKhz="533000"
+     -->
+    <phy-device fd="-1" path="SDIO" />
+</resources>

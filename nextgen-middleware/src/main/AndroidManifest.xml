@@ -1,0 +1,92 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nextgenbroadcast.mobile.middleware">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--    To make service endless-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application>
+
+        <activity
+            android:name=".phy.Atsc3DeviceActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
+
+        <activity
+            android:name=".ServiceDialogActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=".ServiceActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <activity
+            android:name=".DeviceTypeSelectionDialog"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=".ServiceActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <activity
+            android:name=".AlertDialogActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+
+        <receiver android:name="androidx.media.session.MediaButtonReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".notification.AlertNotificationReceiver" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            android:exported="false"
+            android:initOrder="5" />
+
+        <provider
+            android:name=".provider.dash.DashContentProvider"
+            android:authorities="@string/nextgenMediaFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:initOrder="4" />
+
+        <provider
+            android:name=".provider.mmt.MMTContentProvider"
+            android:authorities="@string/nextgenMMTContentProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:initOrder="3" />
+
+        <provider
+            android:name=".provider.esg.ESGContentProvider"
+            android:authorities="@string/nextgenServicesGuideProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:initOrder="2" />
+
+        <provider
+            android:name=".provider.content.ReceiverContentProvider"
+            android:authorities="@string/receiverContentProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            android:initOrder="1" />
+    </application>
+</manifest>

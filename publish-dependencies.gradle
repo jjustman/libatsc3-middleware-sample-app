@@ -1,0 +1,23 @@
+apply plugin: 'maven-publish'
+
+repositories {
+    maven {
+        url 'https://pkgs.dev.azure.com/NGWP/Middleware/_packaging/nextgen/maven/v1'
+        name 'nextgen'
+        authentication {
+            basic(BasicAuthentication)
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url 'https://pkgs.dev.azure.com/NGWP/Middleware/_packaging/nextgen/maven/v1'
+            name 'nextgen'
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
+}

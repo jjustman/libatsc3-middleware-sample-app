@@ -1,0 +1,24 @@
+<resources>
+    <string name="notification_btn_play_title">Play</string>
+    <string name="notification_btn_pause_title">Pause</string>
+    <string name="notification_btn_pause_previous">Previous</string>
+    <string name="notification_btn_pause_next">Next</string>
+    <string name="atsc3_chanel_name">Atsc3 Service Channel</string>
+    <string name="atsc3_no_service_available">Service is not selected</string>
+    <string name="atsc3_source_is_not_initialized">Atsc3 source is not initialized</string>
+    <string name="atsc3_receiver_state_idle">idle</string>
+    <string name="atsc3_receiver_state_playing">playing</string>
+    <string name="atsc3_receiver_state_paused">paused</string>
+    <string name="atsc3_receiver_state_buffering">buffering…</string>
+    <string name="atsc3_receiver_state_connecting">connecting…</string>
+    <string name="service_action_menu_title">Atsc3 service menu</string>
+    <string name="service_action_select_pcap">Select pcap file…</string>
+    <string name="service_action_disconnect">Disconnect</string>
+    <string name="watch_tv">Watch TV</string>
+    <string name="device_type_selection_title">Select dongle type</string>
+    <string name="device_type_action_kailash">KAILASH</string>
+    <string name="device_type_action_yoga">YOGA</string>
+    <string name="tv_application_selection_title">Select TV application</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="warning">Warning</string>
+</resources>

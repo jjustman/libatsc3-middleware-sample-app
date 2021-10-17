@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nextgenbroadcast.mobile.middleware">
+
+    <application>
+
+        <service
+            android:name="com.nextgenbroadcast.mobile.middleware.service.EmbeddedAtsc3Service"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+
+        </service>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false">
+            <meta-data
+                android:name="com.nextgenbroadcast.mobile.middleware.EmbeddedServiceInitializer"
+                android:initOrder="50"
+                android:value="androidx.startup" />
+        </provider>
+
+    </application>
+</manifest>

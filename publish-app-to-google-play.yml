@@ -1,0 +1,38 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: keystore-properties
+
+steps:
+  - bash:
+      echo "y" | sudo $(ANDROID_SDK_ROOT)/tools/bin/sdkmanager --install "ndk;21.1.6352462" --sdk_root=${ANDROID_SDK_ROOT}
+    displayName: 'Setup NDK 21.1.6352462'
+
+  - task: MavenAuthenticate@0
+    displayName: 'Maven Authenticate'
+    inputs:
+      artifactsFeeds: 'middleware, nextgen'
+
+  - task: DownloadSecureFile@1
+    name: authJsonFile
+    displayName: 'Download secure file'
+    inputs:
+      secureFile: 'middleware-service-connection.json'
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: 'sample-app'
+      gradleWrapperFile: 'gradlew'
+      javaHomeOption: 'JDKVersion'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      options: '-PversionCode=$(Build.BuildId) -PstoreFile=$(storeFile) -Ppassword=$(password) -PkeyAlias=$(keyAlias) -PkeyPassword=$(keyPassword) -PauthJsonFilePath=$(authJsonFile.secureFilePath)'
+      tasks: 'clean publishEmbeddedReleaseApk'
+    displayName: gradlew build and publish apk

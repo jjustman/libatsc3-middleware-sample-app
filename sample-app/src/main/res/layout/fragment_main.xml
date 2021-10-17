@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.nextgenbroadcast.mobile.middleware.sample.lifecycle.ViewViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_agent_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.nextgenbroadcast.mobile.middleware.sample.view.ReceiverPlayerView
+                android:id="@+id/receiver_player"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/phy_chart"
+                app:resize_mode="fit"
+                app:use_controller="false"/>
+
+            <TextView
+                android:id="@+id/state_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.stateDescription}"
+                android:textColor="@color/white"
+                android:layout_margin="20dp"
+                app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+                app:layout_constraintEnd_toStartOf="@+id/cancel_scan_btn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel_scan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="@string/receiver_scanning_cancel_btn"
+                android:textAllCaps="false"
+                android:visibility="@{viewModel.isCancelable ? View.VISIBLE : View.GONE }"
+                app:layout_constraintBottom_toBottomOf="@+id/state_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/state_description"
+                app:layout_constraintTop_toTopOf="@+id/state_description" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.isPlaying ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/state_description" />
+
+            <com.nextgenbroadcast.mobile.view.UserAgentView
+                android:id="@+id/user_agent_web_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/atsc3_data_log"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/semi_transparent"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@{viewModel.appDataLog}"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="@{viewModel.showDebugInfo ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@+id/settings_button"
+                app:layout_constraintStart_toStartOf="@+id/receiver_player"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/phy_data_log"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/semi_transparent"
+                android:fontFamily="monospace"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@{viewModel.debugData}"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                android:visibility="@{viewModel.showDebugInfo &amp;&amp; viewModel.showPhyInfo ? View.VISIBLE : View.GONE}"
+                app:layout_constraintEnd_toStartOf="@+id/settings_button"
+                app:layout_constraintStart_toStartOf="@+id/receiver_player"
+                app:layout_constraintTop_toBottomOf="@+id/atsc3_data_log" />
+
+            <com.nextgenbroadcast.mobile.middleware.sample.view.PhyChartView
+                android:id="@+id/phy_chart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/phy_chart_height"
+                android:background="@color/semi_transparent"
+                android:visibility="@{viewModel.showPhyChart ? View.VISIBLE : View.GONE }"
+                app:layout_constraintTop_toBottomOf="@+id/phy_data_log" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/settings_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="6dp"
+                android:src="@drawable/ic_settings"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="@dimen/item_spinner_height"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <TextView
+                android:id="@+id/bottom_sheet_title"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_spinner_height"
+                android:layout_gravity="end"
+                android:background="@color/semi_transparent"
+                android:defaultFocusHighlightEnabled="true"
+                android:focusedByDefault="true"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:shadowColor="@color/black"
+                android:shadowRadius="5"
+                android:text="@string/no_service_available"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ListView
+                android:id="@+id/service_list"
+                android:layout_width="@dimen/service_spinner_width"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="true"
+                android:padding="6dp" />
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

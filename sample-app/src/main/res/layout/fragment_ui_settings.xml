@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nextgenbroadcast.mobile.middleware.sample.lifecycle.ViewViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dialog_content_padding">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enableDebuggingInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={viewModel.showDebugInfo}"
+                android:text="@string/settings_enable_debug_info"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enablePHYDebuggingInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/settings_margin_level_2"
+                android:layout_marginTop="15dp"
+                android:checked="@={viewModel.showPhyInfo}"
+                android:enabled="@{viewModel.showDebugInfo}"
+                android:text="@string/settings_enable_phy_info"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enableDebuggingInformation" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/enablePHYGraphView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:checked="@={viewModel.showPhyChart}"
+                android:text="@string/settings_display_phy_chart"
+                app:layout_constraintEnd_toEndOf="@+id/enablePHYDebuggingInformation"
+                app:layout_constraintTop_toBottomOf="@+id/enablePHYDebuggingInformation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

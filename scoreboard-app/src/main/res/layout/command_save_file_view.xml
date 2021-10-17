@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_command">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_write_to_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/write_to_file" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_file_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/file_name" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edit_text_writing_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/duration" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/command_save_file_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="edit_text_file_name,edit_text_writing_duration,button_write_to_file"
+        app:flow_horizontalGap="@dimen/command_layout_padding" />
+
+</merge>

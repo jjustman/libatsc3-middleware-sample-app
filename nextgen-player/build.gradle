@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+def coreKtxVersion = rootProject.ext.coreKtxVersion
+def exoplayerVersion = rootProject.ext.exoplayerVersion
+def coroutinesVersion = rootProject.ext.coroutinesVersion
+
+dependencies {
+    if (project.hasProperty('org.gradle.project.use_local_src_libatsc3_folder') && project.property('org.gradle.project.use_local_src_libatsc3_folder').toString().toBoolean()) {
+        implementation project(":atsc3_core")
+        implementation project(":atsc3_bridge")
+    } else {
+        implementation "org.ngbp.libatsc3:atsc3_core:$libatsc3Version"
+        implementation "org.ngbp.libatsc3:atsc3_bridge:$libatsc3Version"
+    }
+
+    if (project.hasProperty('org.gradle.project.use_local_src_exoplayer_folder') && project.property('org.gradle.project.use_local_src_exoplayer_folder').toString().toBoolean()) {
+        implementation project(':exoplayer-library-core')
+        implementation project(':exoplayer-extension-mmt')
+    } else {
+        compileOnly "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
+        compileOnly "com.google.android.exoplayer:exoplayer-mmt:$exoplayerVersion"
+    }
+
+    implementation project(":nextgen-core")
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$coreKtxVersion"
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+
+    if (project.hasProperty('org.gradle.project.use_local_src_exoplayer_folder') && project.property('org.gradle.project.use_local_src_exoplayer_folder').toString().toBoolean()) {
+        implementation project(':exoplayer-library-core')
+        implementation project(':exoplayer-library-dash')
+        implementation project(':exoplayer-extension-daa')
+        implementation project(':exoplayer-extension-mmt')
+    } else {
+        implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-daa:$exoplayerVersion"
+        implementation "com.google.android.exoplayer:exoplayer-mmt:$exoplayerVersion"
+    }
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+}
+
+apply from: '../publish.gradle'

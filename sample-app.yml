@@ -1,0 +1,79 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+#resources:
+#  pipelines:
+#  - pipeline: Middleware   # Name of the pipeline resource
+#    source: Middleware # Name of the pipeline referenced by the pipeline resource
+#    # project: FabrikamProject # Required only if the source pipeline is in another project
+#    trigger: true # Run app-ci pipeline when any run of security-lib-ci completes
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: firebase
+  - group: keystore-properties
+
+parameters:
+  - name: release_notes
+    displayName: Release notes
+    type: string
+    default: "CI build"
+
+  - name: tester_groups
+    displayName: Tester groups
+    type: string
+    default: middleware
+    values:
+      - middleware
+      - markone-handsets
+
+steps:
+  - bash:
+      echo "y" | sudo $(ANDROID_SDK_ROOT)/tools/bin/sdkmanager --install "ndk;21.1.6352462" --sdk_root=${ANDROID_SDK_ROOT}
+    displayName: 'Setup NDK 21.1.6352462'
+
+  - task: CmdLine@2
+    inputs:
+      script: curl -sL firebase.tools | bash
+    displayName: 'Install firebase tools'
+
+  - task: MavenAuthenticate@0
+    displayName: 'Maven Authenticate'
+    inputs:
+      artifactsFeeds: 'middleware, nextgen'
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: 'sample-app'
+      gradleWrapperFile: 'gradlew'
+      javaHomeOption: 'JDKVersion'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: true
+      testResultsFiles: '**/TEST-*.xml'
+      options: '-PversionCode=$(Build.BuildId) -PstoreFile=$(storeFile) -Ppassword=$(password) -PkeyAlias=$(keyAlias) -PkeyPassword=$(keyPassword)'
+      tasks: 'clean assembleEmbeddedDebug'
+    displayName: gradlew build
+
+  - task: CopyFiles@2
+    displayName: 'Copy .apk files to artifact staging directory'
+    inputs:
+      SourceFolder: '$(system.defaultworkingdirectory)'
+      Contents: '**/*.apk'
+      flattenFolders: true
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+    displayName: 'Publish Artifact: drop'
+
+  - task: CmdLine@2
+    inputs:
+      script: firebase appdistribution:distribute $(Build.ArtifactStagingDirectory)/*.apk --token "$(firebase-token)" --app $(middleware-token) --release-notes "${{ parameters.release_notes }}" --groups "${{ parameters.tester_groups }}"
+    displayName: 'Distribute app to Firebase'

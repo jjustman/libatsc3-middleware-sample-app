@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DimensionLabel">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="CommandsDialog" parent="Theme.AppCompat.Light.Dialog.Alert" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowTitleStyle">@style/CommandsDialogTitle</item>
+    </style>
+
+    <style name="CommandsDialogTitle" parent="TextAppearance.AppCompat.Title">
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:background">@drawable/ic_bottom_line</item>
+    </style>
+</resources>

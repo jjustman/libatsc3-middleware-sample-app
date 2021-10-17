@@ -1,0 +1,48 @@
+rootProject.name='Android ATSC 3.0 Sample App (A344 and PHY support)'
+
+// jjustman-2020-12-22 - local props loader hack before we have a project ref
+def props = new Properties()
+file("gradle.properties").withInputStream { props.load(it) }
+
+// include our default project artifacts
+include ':sample-app', ':nextgen-core', ':nextgen-middleware', ':nextgen-view', ':nextgen-player', ':nextgen-dev', ':scoreboard-app'
+
+// build exoplayer from local source if property is defined as true in gradle.properties
+if (props.getProperty('org.gradle.project.use_local_src_exoplayer_folder') && props.getProperty('org.gradle.project.use_local_src_exoplayer_folder').toString().toBoolean()) {
+
+    gradle.ext.exoplayerRoot = getProperty('org.gradle.project.local_src_exoPlayerFolder')
+    gradle.ext.exoplayerModulePrefix = 'exoplayer-'
+    apply from: new File(gradle.ext.exoplayerRoot, 'core_settings.gradle')
+}
+
+// build libatsc3 (and phy modules) from local source if property is defined as true in gradle.properties
+if (props.getProperty('org.gradle.project.use_local_src_libatsc3_folder') && props.getProperty('org.gradle.project.use_local_src_libatsc3_folder').toString().toBoolean()) {
+    String libatsc3RootFolder = getProperty('org.gradle.project.local_src_libatsc3Folder')
+
+    include ':atsc3_core'
+    project(':atsc3_core').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_core')
+
+    include ':atsc3_bridge'
+    project(':atsc3_bridge').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_bridge')
+
+    include ':atsc3_bridge_media_mmt'
+    project(':atsc3_bridge_media_mmt').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_bridge_media_mmt')
+
+    include ':atsc3_phy_virtual'
+    project(':atsc3_phy_virtual').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_phy_virtual')
+
+    if (props.getProperty('org.gradle.project.phy_saankhya_enabled') && props.getProperty('org.gradle.project.phy_saankhya_enabled').toString().toBoolean()) {
+        include ':atsc3_phy_saankhya'
+        project(':atsc3_phy_saankhya').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_phy_saankhya')
+    }
+
+    if (props.getProperty('org.gradle.project.phy_lowasis_enabled') && props.getProperty('org.gradle.project.phy_lowasis_enabled').toString().toBoolean()) {
+        include ':atsc3_phy_lowasis'
+        project(':atsc3_phy_lowasis').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_phy_lowasis')
+    }
+
+    if (props.getProperty('org.gradle.project.phy_airwavz_enabled') && props.getProperty('org.gradle.project.phy_airwavz_enabled').toString().toBoolean()) {
+        include ':atsc3_phy_airwavz'
+        project(':atsc3_phy_airwavz').projectDir = new File(rootProject.projectDir, libatsc3RootFolder + '/android/atsc3_phy_airwavz')
+    }
+}

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/target_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="@string/command_target_label"/>
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_global_command"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_ping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ping" />
+
+        <include
+            android:id="@+id/view_separate_ping"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_tune_view" />
+
+        <include
+            android:id="@+id/view_separate_tune"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_select_service_view" />
+
+        <include
+            android:id="@+id/view_separate_select_service"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_testcase_view" />
+
+        <include
+            android:id="@+id/view_separate_apply_text"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_volume_view" />
+
+        <include
+            android:id="@+id/view_separate_volume"
+            layout="@layout/command_separator" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_rebootDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rebootDevice" />
+
+        <include
+            android:id="@+id/separator_reboot"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_restart_app_view" />
+
+        <include
+            android:id="@+id/separator_restart"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_debug_info" />
+
+        <include
+            android:id="@+id/view_separate_show_debug_info"
+            layout="@layout/command_separator" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_show_network_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/networkInfo" />
+
+        <include
+            android:id="@+id/separator_network_info"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_save_file_view" />
+
+        <include
+            android:id="@+id/separator_write_to_file"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_telemetry_view" />
+
+        <include
+            android:id="@+id/separator_telemetry"
+            layout="@layout/command_separator" />
+
+        <include layout="@layout/command_ba_entrypoint" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/target_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="target_label,spinner_global_command"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/command_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:constraint_referenced_ids="target_flow,spinner_global_command,button_ping,view_separate_ping,command_tune_flow,view_separate_tune,command_select_service_flow,view_separate_select_service,command_testcase_flow,view_separate_apply_text,command_volume_flow,view_separate_volume,button_rebootDevice,separator_reboot,command_restart_flow,separator_restart,command_debug_flow,view_separate_show_debug_info,button_show_network_info,separator_network_info,command_save_file_flow,separator_write_to_file,command_telemetry_flow,separator_telemetry,command_ba_entrypoint_flow"
+            app:flow_verticalGap="@dimen/command_layout_padding"
+            app:layout_constraintTop_toBottomOf="@id/target_flow" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

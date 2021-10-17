@@ -1,0 +1,14 @@
+apply from: '../publish-dependencies.gradle'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.nextgenbroadcast.mobile'
+                version = project.hasProperty('artifactVersion') ? artifactVersion : null
+                artifactId = project.name
+                from components.release
+            }
+        }
+    }
+}

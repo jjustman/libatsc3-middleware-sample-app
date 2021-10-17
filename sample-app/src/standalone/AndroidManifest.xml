@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.nextgenbroadcast.mobile.middleware.sample">
+
+    <application>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="com.nextgenbroadcast.mobile.middleware.action.watch.tv" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.nextgenbroadcast.mobile.middleware.service.StandaloneAtsc3Service"
+            android:process=":atsc3Service" >
+
+            <meta-data
+                android:name="com.nextgenbroadcast.mobile.middleware.location.FrequencyLocator"
+                android:value="nextgenbroadcast.locator" />
+
+            <meta-data
+                android:name="org.ngbp.libatsc3.middleware.android.phy.SaankhyaPHYAndroid"
+                android:resource="@xml/saankhya_phy" />
+
+            <meta-data
+                android:name="com.nextgenbroadcast.mobile.middleware.phy.Atsc3UsbPhyConnector"
+                android:resource="@xml/device_filter" />
+
+        </service>
+
+        <provider
+            android:name="androidx.work.impl.WorkManagerInitializer"
+            android:authorities="${applicationId}.workmanager-init"
+            tools:node="remove" />
+
+        <provider
+            android:name="com.nextgenbroadcast.mobile.middleware.provider.dash.DashContentProvider"
+            android:authorities="@string/nextgenMediaFileProvider"
+            android:exported="true"
+            android:process=":atsc3Service"
+            android:readPermission="com.nextgenbroadcast.mobile.middleware.provider.dash.READ_DATA"
+            tools:replace="android:exported" />
+
+        <provider
+            android:name="com.nextgenbroadcast.mobile.middleware.provider.mmt.MMTContentProvider"
+            android:authorities="@string/nextgenMMTContentProvider"
+            android:exported="true"
+            android:process=":atsc3Service"
+            android:readPermission="com.nextgenbroadcast.mobile.middleware.provider.mmt.READ_DATA"
+            tools:replace="android:exported" />
+
+        <provider
+            android:name="com.nextgenbroadcast.mobile.middleware.provider.esg.ESGContentProvider"
+            android:authorities="@string/nextgenServicesGuideProvider"
+            android:exported="true"
+            android:process=":atsc3Service"
+            android:readPermission="com.nextgenbroadcast.mobile.middleware.provider.esg.READ_DATA"
+            tools:replace="android:exported" />
+
+        <provider
+            android:name="com.nextgenbroadcast.mobile.middleware.provider.content.ReceiverContentProvider"
+            android:authorities="@string/receiverContentProvider"
+            android:exported="true"
+            android:process=":atsc3Service"
+            android:readPermission="com.nextgenbroadcast.mobile.middleware.provider.receiver.READ_DATA"
+            android:writePermission="com.nextgenbroadcast.mobile.middleware.provider.receiver.WRITE_DATA"
+            tools:replace="android:exported" />
+
+    </application>
+
+</manifest>

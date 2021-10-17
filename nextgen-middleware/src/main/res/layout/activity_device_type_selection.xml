@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <Button
+        android:id="@+id/kailash_type_btn"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/device_type_action_kailash" />
+
+    <Button
+        android:id="@+id/yoga_type_btn"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/device_type_action_yoga" />
+
+</LinearLayout>

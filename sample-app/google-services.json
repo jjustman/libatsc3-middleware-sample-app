@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "577477544292",
+    "firebase_url": "https://nextgen-middleware.firebaseio.com",
+    "project_id": "nextgen-middleware",
+    "storage_bucket": "nextgen-middleware.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577477544292:android:fb85b9a2e59fe161fc9271",
+        "android_client_info": {
+          "package_name": "com.nextgenbroadcast.mobile.middleware.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEV-LMBzLBTQVBXgU2qz6dyT4p05cceRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577477544292:android:1a01ddbc48f9b666fc9271",
+        "android_client_info": {
+          "package_name": "com.nextgenbroadcast.mobile.middleware.sample.light"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEV-LMBzLBTQVBXgU2qz6dyT4p05cceRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577477544292:android:ba456f36cc1ac7a6fc9271",
+        "android_client_info": {
+          "package_name": "com.nextgenbroadcast.mobile.middleware.sample.standalone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEV-LMBzLBTQVBXgU2qz6dyT4p05cceRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577477544292-jdpjhv8h14uk3hg4dg1cv9p137aacgg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

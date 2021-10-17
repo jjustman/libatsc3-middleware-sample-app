@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="phy_chart_height">100dp</dimen>
+    <dimen name="chart_label_text_size">12sp</dimen>
+    <dimen name="command_layout_padding">16dp</dimen>
+    <dimen name="chart_legend_text_size">8sp</dimen>
+    <dimen name="chart_legend_width">50dp</dimen>
+    <dimen name="chart_legend_offset">65dp</dimen>
+</resources>

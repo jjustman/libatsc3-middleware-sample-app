@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.nextgenbroadcast.mobile.middleware.scoreboard.view.DeviceItemView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/device_name_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/device_lost_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/device_lost_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/chart_device_lost_label"
+        android:textColor="@color/alert"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/device_name_view"
+        tools:visibility="visible" />
+
+    <com.nextgenbroadcast.mobile.middleware.scoreboard.view.PhyChart
+        android:id="@+id/device_phy_chart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/phy_chart_height"
+        android:layout_marginTop="10dp"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/device_name_view" />
+
+    <TextView
+        android:id="@+id/device_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="@color/alert"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/device_phy_chart"
+        tools:text="Error message" />
+
+</com.nextgenbroadcast.mobile.middleware.scoreboard.view.DeviceItemView>

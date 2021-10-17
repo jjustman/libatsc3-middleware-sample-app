@@ -1,0 +1,82 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.5.21'
+    ext.dokka_version = '1.4.32'
+
+    repositories {
+        google()
+        if (project.getProperty('org.gradle.project.use_local_src_exoplayer_folder').toBoolean()) {
+            jcenter()
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
+        classpath 'com.google.firebase:perf-plugin:1.4.0'  // Performance Monitoring plugin
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.7.6'
+
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}")
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+plugins {
+    id "net.linguica.maven-settings" version "0.5"
+    id "org.jetbrains.dokka" version "${dokka_version}"
+
+}
+
+allprojects {
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+        google()
+        if (project.getProperty('org.gradle.project.use_local_src_exoplayer_folder').toBoolean()) {
+            jcenter()
+        }
+        maven {
+            url 'https://pkgs.dev.azure.com/NGWP/Middleware/_packaging/middleware/maven/v1'
+            name 'middleware'
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'net.linguica.maven-settings'
+    apply plugin: 'org.jetbrains.dokka'
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+/* jjustman-2021-06-01 - generate top-level docs for sample app and modules */
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(new File(buildDir.getPath() + "/dokka"))
+}
+
+ext {
+    minSdkVersion = 28
+    compileSdkVersion = 30
+    targetSdkVersion = 30
+    buildToolsVersion = "29.0.3"
+    coreKtxVersion = '1.6.0'
+    daggerVersion = '2.28.1'
+    lifecycleVersion = '2.3.1'
+    libatsc3Version = "1.2.2"
+    exoplayerVersion = "2.10.7.10"
+    coroutinesVersion = "1.4.1"
+    startupRuntime = '1.1.0'
+}

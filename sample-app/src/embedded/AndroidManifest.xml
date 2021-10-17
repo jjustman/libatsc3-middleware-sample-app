@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nextgenbroadcast.mobile.middleware.sample">
+
+    <application>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="com.nextgenbroadcast.mobile.middleware.sample.action.watch" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.nextgenbroadcast.mobile.middleware.service.EmbeddedAtsc3Service">
+
+            <meta-data
+                android:name="com.nextgenbroadcast.mobile.middleware.location.FrequencyLocator"
+                android:resource="@xml/default_frequencies" />
+
+            <meta-data
+                android:name="org.ngbp.libatsc3.middleware.android.phy.SaankhyaPHYAndroid"
+                android:resource="@xml/saankhya_phy" />
+
+            <meta-data
+                android:name="com.nextgenbroadcast.mobile.middleware.phy.Atsc3UsbPhyConnector"
+                android:resource="@xml/device_filter" />
+
+        </service>
+
+    </application>
+
+</manifest>
